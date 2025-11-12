@@ -27,7 +27,7 @@ pub fn download(out_dir: &Path) -> Result<PathBuf> {
         ar.unpack(out_dir)?;
         assert!(dest.exists());
 
-        std::fs::remove_dir(dest.join("utest")).unwrap();
+        std::fs::remove_dir_all(dest.join("utest")).unwrap();
     }
     Ok(dest)
 }
