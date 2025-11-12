@@ -27,7 +27,14 @@ pub fn download(out_dir: &Path) -> Result<PathBuf> {
         ar.unpack(out_dir)?;
         assert!(dest.exists());
 
-        std::fs::remove_dir_all(dest.join("utest")).unwrap();
+        // Read the file content
+        let content = std::fs::read_to_string(dest.join("utest").join("ctest.h"))?;
+
+        // Perform the string replacement
+        let modified_content = content.replace("#ifndef __CTEST_NO_TIME", "#if !defined(__CTEST_NO_TIME) && !defined(CTEST_NO_INTTYPES)");
+
+        // Write the modified content back to the file
+        std::fs::write(dest.join("utest").join("ctest.h"), modified_content.as_bytes())?;
     }
     Ok(dest)
 }
