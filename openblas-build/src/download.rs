@@ -26,6 +26,8 @@ pub fn download(out_dir: &Path) -> Result<PathBuf> {
         let mut ar = tar::Archive::new(gz_stream);
         ar.unpack(out_dir)?;
         assert!(dest.exists());
+
+        fs::remove_dir(dest.join("utest")).unwrap();
     }
     Ok(dest)
 }
